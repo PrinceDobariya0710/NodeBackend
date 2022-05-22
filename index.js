@@ -36,6 +36,21 @@ app.get('/get-product/:id', (req, res) => {
     })
 });
 
+//GET SUBCATEGORY WISE PRODUCT
+app.get('/get-category_wise-product/:id', (req, res) => {
+    const id = req.params.id;
+    const getProductQuery = "SELECT p.*,sc.sub_category_name , c.category_name , ud.user_details_id , a.attribute_title FROM product_detail pd,product p,category c,sub_category sc , attribute a,product_duration_rate pdr,user_details ud WHERE a.id = pd.attribute_id AND p.id = pd.product_id AND pdr.id = p.product_duration_rate_id AND sc.id = p.subcategory_id AND ud.user_details_id = p.user_details_id AND p.subcategory_id ="
+    connection.query(getProductQuery + id , (error, result) => {
+        if (error) {
+            res.send('error to fetch categorywise product all records due to ' + error)
+        } else {
+            res.send(result)
+            res.status
+        }
+    })
+});
+
+
 
 
 app.listen(5001);
